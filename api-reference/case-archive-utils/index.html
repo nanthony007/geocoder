@@ -302,8 +302,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#src.geocoding.case_archive_utils.load_case_archive_data" class="md-nav__link">
-    load_case_archive_data()
+  <a href="#src.geocoding.case_archive_utils.get_live_case_archive_data" class="md-nav__link">
+    get_live_case_archive_data()
   </a>
   
 </li>
@@ -447,8 +447,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#src.geocoding.case_archive_utils.load_case_archive_data" class="md-nav__link">
-    load_case_archive_data()
+  <a href="#src.geocoding.case_archive_utils.get_live_case_archive_data" class="md-nav__link">
+    get_live_case_archive_data()
   </a>
   
 </li>
@@ -552,6 +552,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        pd.DataFrame: dataframe with distance column</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">calc_distance</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
@@ -588,9 +589,9 @@
 
     <div class="doc doc-contents ">
 
-      <p>Idenifies whether a city subsitution can be used.</p>
-<p>This function handles cases where the Incident City is null
-and it looks for a city in Residence City.  If there is one,
+      <p>Identifies whether a city substitution can be used.</p>
+<p>This function handles cases where the incident_city is null
+and it looks for a city in residence_city.  If there is one,
 it subsitutes the latter for the former.</p>
 
 <p><strong>Parameters:</strong></p>
@@ -630,10 +631,10 @@ it subsitutes the latter for the former.</p>
         <details class="quote">
           <summary>Source code in <code>geocoding/case_archive_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">city_sub</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;Idenifies whether a city subsitution can be used.</span>
+    <span class="sd">&quot;&quot;&quot;Identifies whether a city substitution can be used.</span>
 
-<span class="sd">    This function handles cases where the Incident City is null</span>
-<span class="sd">    and it looks for a city in Residence City.  If there is one,</span>
+<span class="sd">    This function handles cases where the incident_city is null</span>
+<span class="sd">    and it looks for a city in residence_city.  If there is one,</span>
 <span class="sd">    it subsitutes the latter for the former.</span>
 
 <span class="sd">    Args:</span>
@@ -642,11 +643,11 @@ it subsitutes the latter for the former.</p>
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple[str, bool]: a tuple containing the city and whether it was subsituted</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Incident City&quot;</span><span class="p">]):</span>
-        <span class="n">city</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Incident City&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;incident_city&quot;</span><span class="p">]):</span>
+        <span class="n">city</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;incident_city&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="n">subbed</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">elif</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Incident City&quot;</span><span class="p">])</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Residence City&quot;</span><span class="p">]):</span>
-        <span class="n">city</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Residence City&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;incident_city&quot;</span><span class="p">])</span> <span class="ow">and</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;residence_city&quot;</span><span class="p">]):</span>
+        <span class="n">city</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;residence_city&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="n">subbed</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">city</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
@@ -719,7 +720,7 @@ it subsitutes the latter for the former.</p>
 <span class="sd">    Returns:</span>
 <span class="sd">        Union[int, str, None]: cleaned address or None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Incident Address&quot;</span><span class="p">]</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;incident_street&quot;</span><span class="p">]</span>
     <span class="c1"># handles &#39;unknown&#39; and variations</span>
     <span class="k">if</span> <span class="s2">&quot;unk&quot;</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
         <span class="k">return</span> <span class="kc">None</span>
@@ -798,9 +799,7 @@ it subsitutes the latter for the former.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">street</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;clean_address&quot;</span><span class="p">]</span>
     <span class="n">city</span><span class="p">,</span> <span class="n">city_subbed</span> <span class="o">=</span> <span class="n">city_sub</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-    <span class="n">zip_code</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;Incident Zip Code&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;Incident Zip Code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-    <span class="p">)</span>
+    <span class="n">zip_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;incident_zip&quot;</span><span class="p">])</span> <span class="k">else</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;incident_zip&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="n">address</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">street</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">city</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">zip_code</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="k">return</span> <span class="n">address</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">city_subbed</span>
 </code></pre></div>
@@ -823,7 +822,7 @@ it subsitutes the latter for the former.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Handles commas and stripping and title-casing in Address field.</p>
+      <p>Handles commas, stripping and title-casing in Address field.</p>
 
 <p><strong>Parameters:</strong></p>
 <table>
@@ -862,7 +861,7 @@ it subsitutes the latter for the former.</p>
         <details class="quote">
           <summary>Source code in <code>geocoding/case_archive_utils.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">deal_with_commas</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Handles commas and stripping and title-casing in Address field.</span>
+    <span class="sd">&quot;&quot;&quot;Handles commas, stripping and title-casing in Address field.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        x (str): Address</span>
@@ -981,8 +980,7 @@ and coded_score.</p>
 <span class="sd">        pd.DataFrame: geocoded dataframe.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">geolocator</span> <span class="o">=</span> <span class="n">ArcGIS</span><span class="p">()</span>
-    <span class="n">geocode</span> <span class="o">=</span> <span class="n">RateLimiter</span><span class="p">(</span><span class="n">geolocator</span><span class="o">.</span><span class="n">geocode</span><span class="p">,</span> <span class="n">min_delay_seconds</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;geo_location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;full_address&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span><span class="n">geocode</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;geo_location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;full_address&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">progress_apply</span><span class="p">(</span><span class="n">geolocator</span><span class="o">.</span><span class="n">geocode</span><span class="p">)</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;coded_lat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;geo_location&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">latitude</span> <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">notna</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
     <span class="p">)</span>
@@ -1006,29 +1004,45 @@ and coded_score.</p>
 
 
 
-<h2 id="src.geocoding.case_archive_utils.load_case_archive_data" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">load_case_archive_data</span><span class="p">()</span></code>
+<h2 id="src.geocoding.case_archive_utils.get_live_case_archive_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_live_case_archive_data</span><span class="p">()</span></code>
 
 
 </h2>
 
     <div class="doc doc-contents ">
 
-      <p>Utility function to load in ME dataset from file.</p>
-<p>This function also removes records where the Incident Address is null
-and applies the clean address method.</p>
+      <p>Loads live data from cook county api via socrata (sodapy).</p>
 
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>DataFrame</code></td>
+      <td><p>pd.DataFrame: Dataframe of records.</p></td>
+    </tr>
+  </tbody>
+</table>
         <details class="quote">
           <summary>Source code in <code>geocoding/case_archive_utils.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">load_case_archive_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Utility function to load in ME dataset from file.</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_live_case_archive_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Loads live data from cook county api via socrata (sodapy).</span>
 
-<span class="sd">    This function also removes records where the Incident Address is null</span>
-<span class="sd">    and applies the clean address method.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: Dataframe of records.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;./data/Medical_Examiner_Case_Archive.csv&quot;</span><span class="p">)</span>
-    <span class="c1"># drop where Incident Address is None</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Incident Address&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Socrata</span><span class="p">(</span><span class="s2">&quot;datacatalog.cookcountyil.gov&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cjeq-bs86&quot;</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">100_000</span><span class="p">)</span>  <span class="c1"># id for case archives dataset</span>
+    <span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_records</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="c1"># drop where incident_street is None</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">results_df</span><span class="p">[</span><span class="n">results_df</span><span class="p">[</span><span class="s2">&quot;incident_street&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span>
 
     <span class="c1"># regex removal</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;clean_address&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">clean_address</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
