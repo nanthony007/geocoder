@@ -2,27 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://uk-ipop.github.io/geocoding/</loc>
-         <lastmod>2021-07-19</lastmod>
+         <lastmod>2021-07-20</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://uk-ipop.github.io/geocoding/api-reference/async-utils/</loc>
+         <lastmod>2021-07-20</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://uk-ipop.github.io/geocoding/api-reference/case-archive-utils/</loc>
-         <lastmod>2021-07-19</lastmod>
+         <lastmod>2021-07-20</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://uk-ipop.github.io/geocoding/api-reference/distance-utils/</loc>
-         <lastmod>2021-07-19</lastmod>
+         <lastmod>2021-07-20</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://uk-ipop.github.io/geocoding/api-reference/pharmacy-utils/</loc>
-         <lastmod>2021-07-19</lastmod>
+         <lastmod>2021-07-20</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://uk-ipop.github.io/geocoding/api-reference/spatial-join/</loc>
-         <lastmod>2021-07-19</lastmod>
+         <lastmod>2021-07-20</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
